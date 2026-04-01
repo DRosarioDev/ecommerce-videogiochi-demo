@@ -52,7 +52,7 @@ public class ProductController {
 
     @GetMapping("/products/reviews")
     public List<ReviewOutputDTO> getReviewsByPdoductID(@RequestParam @Valid Long idProduct){
-        return serviceProduct.getReviewsByPdoductID(idProduct);
+        return serviceProduct.getReviewsByProductId(idProduct);
     }
     
     @PostMapping("/products/review/{idProduct}")

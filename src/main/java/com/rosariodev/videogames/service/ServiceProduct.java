@@ -48,7 +48,8 @@ public class ServiceProduct {
             DAOUtilHibernate.beginTransaction();
             Product product = daoProduct.findById(id);
             DAOUtilHibernate.commitTransaction();
-            if (product == null) throw new IllegalArgumentException("Product with ID " + id + " not found");
+            if (product == null)
+                throw new IllegalArgumentException("Product with ID " + id + " not found");
             return Mapper.map(product, ProductDTO.class);
         } catch (DAOException ex) {
             DAOUtilHibernate.rollbackTransaction();
@@ -61,7 +62,8 @@ public class ServiceProduct {
             DAOUtilHibernate.beginTransaction();
             List<Product> products = daoProduct.findByName(name);
             DAOUtilHibernate.commitTransaction();
-            if (products.isEmpty()) throw new IllegalArgumentException("No products found with name: " + name);
+            if (products.isEmpty())
+                throw new IllegalArgumentException("No products found with name: " + name);
             return Mapper.map(products, ProductDTO.class);
         } catch (DAOException ex) {
             DAOUtilHibernate.rollbackTransaction();
@@ -74,8 +76,10 @@ public class ServiceProduct {
             DAOUtilHibernate.beginTransaction();
             User user = daoUser.getUserByEmail(email);
             Product product = daoProduct.findById(idProduct);
-            if (product == null) throw new IllegalArgumentException("Product with ID " + idProduct + " not found");
-            if (!user.hasPurchasedProduct(product)) throw new IllegalArgumentException("You can only review products you have purchased");
+            if (product == null)
+                throw new IllegalArgumentException("Product with ID " + idProduct + " not found");
+            if (!user.hasPurchasedProduct(product))
+                throw new IllegalArgumentException("You can only review products you have purchased");
             Review newReview = new Review(user, product, review.getReview());
             product.addReview(newReview);
             user.addReview(newReview);
@@ -87,14 +91,19 @@ public class ServiceProduct {
         }
     }
 
-    public List<ReviewOutputDTO> getReviewsByPdoductID(Long idProduct) {
+    public List<ReviewOutputDTO> getReviewsByProductId(Long idProduct) {
         try {
             DAOUtilHibernate.beginTransaction();
             Product product = daoProduct.findById(idProduct);
-            DAOUtilHibernate.commitTransaction();
-            if (product == null) throw new IllegalArgumentException("Product with ID " + idProduct + " not found");
+            if (product == null) {
+                DAOUtilHibernate.commitTransaction();
+                throw new IllegalArgumentException("Product with ID " + idProduct + " not found");
+            }
             List<Review> reviews = product.getReviews();
-            if (reviews.isEmpty()) throw new IllegalArgumentException("No reviews found for product with ID: " + idProduct);
+            boolean isEmpty = reviews.isEmpty();
+            DAOUtilHibernate.commitTransaction();
+            if (isEmpty)
+                throw new IllegalArgumentException("No reviews found for product with ID: " + idProduct);
             return Mapper.map(reviews, ReviewOutputDTO.class);
         } catch (DAOException ex) {
             DAOUtilHibernate.rollbackTransaction();

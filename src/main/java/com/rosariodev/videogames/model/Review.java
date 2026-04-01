@@ -1,5 +1,6 @@
 package com.rosariodev.videogames.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,12 +25,13 @@ public class Review {
     private User user;
     @ManyToOne
     private Product product;
-    private String review;
+    @Column(name = "review")
+    private String reviewText;
 
-    public Review(User user, Product product, String review) {
+    public Review(User user, Product product, String reviewText) {
         this.user = user;
         this.product = product;
-        this.review = review;
+        this.reviewText = reviewText;
     }
 
       

@@ -15,10 +15,9 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-
 @Repository
 @Profile("hibernate")
-public class DAOProductHibernate extends DAOGenericHibernate<Product> implements IDAOProduct{
+public class DAOProductHibernate extends DAOGenericHibernate<Product> implements IDAOProduct {
 
     @Override
     public List<Product> findByName(String name) throws DAOException {
@@ -28,10 +27,12 @@ public class DAOProductHibernate extends DAOGenericHibernate<Product> implements
         query.select(root);
         List<Predicate> predicates = new ArrayList<>();
         if (name != null && !name.trim().isEmpty()) {
-            predicates.add(builder.equal(root.get("name"), name));
+            predicates.add(builder.like(
+                    builder.lower(root.get("name")),
+                    "%" + name.trim().toLowerCase() + "%"));
         }
-        query.where(predicates.toArray(new Predicate[]{}));
+        query.where(predicates.toArray(new Predicate[] {}));
         return getSession().createQuery(query).getResultList();
     }
-    
+
 }

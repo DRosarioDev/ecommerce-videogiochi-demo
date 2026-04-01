@@ -10,7 +10,7 @@ public class ReviewOutputDTO {
     @NotBlank
     private UserOutputDTO user;
     @NotBlank
-    private String review;
+    private String reviewText;
 
 
     

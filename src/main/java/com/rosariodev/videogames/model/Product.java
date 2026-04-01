@@ -27,7 +27,7 @@ public class Product {
     private String description;
     private double price;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<>();
 
 

@@ -1,5 +1,7 @@
 package com.rosariodev.videogames.model.dto;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -13,6 +15,8 @@ public class ProductDTO {
     private String description;
     @NotBlank
     private double prize;
+
+    private List<ReviewOutputDTO> review;
 
     
 
